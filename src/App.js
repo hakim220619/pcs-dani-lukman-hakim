@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MovieList from "./components/MovieList";
+import Login from './components/Login';
 
-function App() {
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("token")
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <header className="bg-gray-800 text-white py-4">
+          <div className="container mx-auto px-4">
+            <h1 className="text-2xl font-bold">Movie App with Upload</h1>
+          </div>
+        </header>
+     
+        <Routes>
+        {token ? <Route exact path="/" element={<MovieList />} /> : <Route exact path="/" element={ <Login setIsLoggedIn={setIsLoggedIn} />} />}
+          <Route exact path="/" element={<MovieList />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
